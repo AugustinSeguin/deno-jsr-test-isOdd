@@ -1,6 +1,7 @@
 {
     "name": "@augustinseg/isodd-test",
     "version": "0.1.0",
+    "description": "Mini framework de test (describe/test/expect/run) et utilitaires isOdd/isEven avec validation stricte pour Deno/JSR.",
     "exports": {
         ".": "./mod.ts",
         "./isOdd": "./src/isOdd.ts"
@@ -11,6 +12,20 @@
         "lint": "deno lint",
         "check": "deno check mod.ts && deno check src/isOdd.ts",
         "demo": "deno run -A examples/demo.ts"
+    },
+    "keywords": [
+        "test",
+        "testing",
+        "expect",
+        "describe",
+        "isodd",
+        "iseven",
+        "deno",
+        "jsr"
+    ],
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/AugustinSeguin/deno-jsr-test-isOdd"
     },
     "lint": {
         "rules": {

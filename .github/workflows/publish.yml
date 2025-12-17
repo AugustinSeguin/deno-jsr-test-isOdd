@@ -1,0 +1,40 @@
+name: publish-jsr
+
+on:
+  push:
+    tags:
+      - "v*.*.*"
+
+permissions:
+  contents: read
+  id-token: write # needed for provenance
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Deno
+        uses: denoland/setup-deno@v1
+        with:
+          deno-version: v1.x
+
+      - name: Validate version matches tag
+        run: |
+          TAG="${GITHUB_REF_NAME#v}"
+          FILE_VERSION=$(jq -r '.version' deno.json)
+          echo "Tag: $TAG, File: $FILE_VERSION"
+          test "$TAG" = "$FILE_VERSION"
+
+      - name: Format, Lint, Check
+        run: |
+          deno task fmt
+          deno task lint
+          deno task check
+
+      - name: Publish to JSR (with provenance)
+        env:
+          JSR_AUTH_TOKEN: ${{ secrets.JSR_AUTH_TOKEN }}
+        run: deno publish
