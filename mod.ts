@@ -23,15 +23,28 @@
  * @module
  */
 
+/**
+ * A test function that can be sync or async.
+ */
 export type TestFn = () => void | Promise<void>;
 
+/**
+ * Represents a single test case within a suite.
+ */
 export interface TestCase {
+  /** The name of the test. */
   name: string;
+  /** The test function to execute. */
   fn: TestFn;
 }
 
+/**
+ * Represents a test suite containing multiple test cases.
+ */
 export interface Suite {
+  /** The name of the suite. */
   name: string;
+  /** The list of test cases in this suite. */
   tests: TestCase[];
 }
 
