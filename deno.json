@@ -1,0 +1,41 @@
+{
+    "name": "@augustinseg/isodd-test",
+    "version": "0.1.0",
+    "exports": {
+        ".": "./mod.ts",
+        "./isOdd": "./src/isOdd.ts"
+    },
+    "tasks": {
+        "fmt": "deno fmt --check",
+        "fmt:write": "deno fmt",
+        "lint": "deno lint",
+        "check": "deno check mod.ts && deno check src/isOdd.ts",
+        "demo": "deno run -A examples/demo.ts"
+    },
+    "lint": {
+        "rules": {
+            "tags": [
+                "recommended"
+            ]
+        }
+    },
+    "fmt": {
+        "useTabs": false,
+        "lineWidth": 100,
+        "indentWidth": 2,
+        "semiColons": true
+    },
+    "compilerOptions": {
+        "strict": true,
+        "noImplicitAny": true,
+        "noFallthroughCasesInSwitch": true
+    },
+    "exclude": [
+        ".git",
+        ".github",
+        "node_modules",
+        "dist",
+        "coverage"
+    ],
+    "license": "MIT"
+}

@@ -1,0 +1,20 @@
+# Deno cache and coverage
+.deno/
+coverage/
+
+# Node artifacts (if used)
+node_modules/
+.npm/
+
+# Build output
+dist/
+out/
+
+# OS / editor junk
+.DS_Store
+Thumbs.db
+*.log
+.idea/
+.vscode/
+
+prompt.md 
