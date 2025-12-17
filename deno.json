@@ -1,6 +1,6 @@
 {
   "name": "@augustinseg/isodd-test",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Mini framework de test (describe/test/expect/run) et utilitaires isOdd/isEven avec validation stricte pour Deno/JSR.",
   "exports": {
     ".": "./mod.ts",
