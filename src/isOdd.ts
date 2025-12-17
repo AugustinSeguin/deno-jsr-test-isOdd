@@ -9,6 +9,25 @@ export function assertIntegerNumber(value: unknown): asserts value is number {
     typeof value !== "number" ||
     !Number.isFinite(value) ||
     !Number.isInteger(value)
+    /**
+     * isOdd/isEven utilities with strict integer validation.
+     *
+     * Exports:
+     * - assertIntegerNumber: runtime guard that ensures a finite integer number.
+     * - isEven: returns true for even integers, false otherwise.
+     * - isOdd: returns true for odd integers, false otherwise.
+     *
+     * Example:
+     * ```ts
+     * import { isOdd, isEven } from "jsr:@augustinseg/isodd-test/isOdd";
+     *
+     * isEven(2); // true
+     * isOdd(3);  // true
+     *
+     * // throws TypeError (not an integer)
+     * isOdd(1.5);
+     * ```
+     */
   ) {
     throw new TypeError("Expected a finite integer number");
   }
