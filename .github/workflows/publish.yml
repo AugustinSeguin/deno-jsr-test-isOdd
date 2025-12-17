@@ -2,8 +2,14 @@ name: publish-jsr
 
 on:
   push:
+    branches: [main]
+  pull_request:
+    branches: [main]
     tags:
       - "v*.*.*"
+  release:
+    types: [published]
+  workflow_dispatch:
 
 permissions:
   contents: read

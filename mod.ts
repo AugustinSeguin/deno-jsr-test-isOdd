@@ -7,7 +7,20 @@
  * - expect: Simple assertions API (toBe).
  * - run: Execute all registered suites and tests, prints a summary and exits with status code.
  *
- * This module is intentionally minimal to demonstrate JSR publishing and documentation.
+ * @example
+ * ```ts
+ * import { describe, test, expect, run } from "jsr:@augustinseg/isodd-test";
+ *
+ * describe("Arithmetic", () => {
+ *   test("adds", () => {
+ *     expect(2 + 3).toBe(5);
+ *   });
+ * });
+ *
+ * await run();
+ * ```
+ *
+ * @module
  */
 
 export type TestFn = () => void | Promise<void>;
@@ -98,9 +111,7 @@ export async function run(): Promise<void> {
       } catch (err) {
         failed++;
         console.error(`  ✗ ${t.name}`);
-        console.error(
-          `    ${err instanceof Error ? err.message : String(err)}`
-        );
+        console.error(`${err instanceof Error ? err.message : String(err)}`);
       }
     }
   }
@@ -114,4 +125,4 @@ export async function run(): Promise<void> {
   }
 }
 
-export { isOdd, isEven, assertIntegerNumber } from "./src/isOdd.ts";
+export { assertIntegerNumber, isEven, isOdd } from "./src/isOdd.ts";
