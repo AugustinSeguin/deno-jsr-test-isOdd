@@ -62,9 +62,8 @@ describe("isOdd/isEven", () => {
       } catch (error_) {
         // Ensure the error is captured for lint satisfaction
         if (!(error_ instanceof Error)) {
-          // Normalize non-Error throws
-          // deno-lint-ignore no-unused-vars
-          const _ignored = String(error_);
+          // Normalize non-Error throws without logging
+          String(error_);
         }
         threw = true;
       }

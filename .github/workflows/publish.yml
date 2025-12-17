@@ -2,8 +2,14 @@ name: publish-jsr
 
 on:
   push:
+    branches: [main]
+  pull_request:
+    branches: [main]
     tags:
       - "v*.*.*"
+  release:
+    types: [published]
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -21,12 +27,28 @@ jobs:
         with:
           deno-version: v1.x
 
-      - name: Validate version matches tag
+      - name: Compute metadata
+        id: meta
         run: |
-          TAG="${GITHUB_REF_NAME#v}"
           FILE_VERSION=$(jq -r '.version' deno.json)
-          echo "Tag: $TAG, File: $FILE_VERSION"
-          test "$TAG" = "$FILE_VERSION"
+          if [ "${{ github.event_name }}" = "release" ]; then
+            RAW_TAG="${{ github.event.release.tag_name }}"
+          elif [ "${GITHUB_REF_TYPE}" = "tag" ]; then
+            RAW_TAG="$GITHUB_REF_NAME"
+          else
+            RAW_TAG=""
+          fi
+          TAG_NO_V="${RAW_TAG#v}"
+          echo "file_version=$FILE_VERSION" >> "$GITHUB_OUTPUT"
+          echo "raw_tag=$RAW_TAG" >> "$GITHUB_OUTPUT"
+          echo "tag_no_v=$TAG_NO_V" >> "$GITHUB_OUTPUT"
+          echo "Resolved tag: ${RAW_TAG:-<none>}, File: $FILE_VERSION"
+
+      - name: Validate version matches tag
+        if: ${{ steps.meta.outputs.raw_tag != '' }}
+        run: |
+          echo "Tag: ${{ steps.meta.outputs.tag_no_v }}, File: ${{ steps.meta.outputs.file_version }}"
+          test "${{ steps.meta.outputs.tag_no_v }}" = "${{ steps.meta.outputs.file_version }}"
 
       - name: Format, Lint, Check
         run: |
@@ -35,6 +57,11 @@ jobs:
           deno task check
 
       - name: Publish to JSR (with provenance)
+        if: ${{ steps.meta.outputs.raw_tag != '' }}
         env:
           JSR_AUTH_TOKEN: ${{ secrets.JSR_AUTH_TOKEN }}
         run: deno publish
+
+      - name: Dry-run publish (not a tag/release)
+        if: ${{ steps.meta.outputs.raw_tag == '' }}
+        run: deno publish --dry-run
